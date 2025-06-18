@@ -1,0 +1,11 @@
+# Backend
+./Backend/node_modules/
+
+#WebDashboard
+./WebDashboard/node_modules
+./WebDashboard/.bolt
+
+# GPSTraking_Android
+./GPSTraking_Android/.gitignore
+./GPSTraking_Android/build
+./GPSTraking_Android/.idea
