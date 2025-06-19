@@ -10,7 +10,7 @@ const PORT = 3000;
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const MONGODB_URI = "mongodb+srv://livemap:wi5Y1BLy7zaHkQ9a@cluster0.icbepgp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
-
+ 
 app.use(cors());
 app.use(bodyParser.json());
 
