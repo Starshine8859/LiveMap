@@ -29,7 +29,7 @@ public class ActivityReceiver extends BroadcastReceiver {
             case DetectedActivity.ON_BICYCLE: return "Bicycling";
             case DetectedActivity.IN_VEHICLE: return "Driving";
             case DetectedActivity.ON_FOOT: return "On Foot";
-            default: return "Unknown";
+            default: return "Idle";
         }
     }
 }

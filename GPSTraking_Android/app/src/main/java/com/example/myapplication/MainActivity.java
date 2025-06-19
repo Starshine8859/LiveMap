@@ -61,10 +61,10 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-    private static final String BACKEND_URL = "http://173.44.141.183:3000/api/endpoint"; // Replace with your actual backend URL
+//    private static final String BACKEND_URL = "http://173.44.141.183:3000/api/endpoint"; // Replace with your actual backend URL
 
-//    private static final String BACKEND_URL = "http://192.168.10.185:3000/api/endpoint"; // Replace with your actual backend URL
-    private static final int MAX_PATH_POINTS = 30; // Maximum number of path points to display
+    private static final String BACKEND_URL = "http://192.168.10.185:3000/api/endpoint"; // Replace with your actual backend URL
+//    private static final int MAX_PATH_POINTS = 30; // Maximum number of path points to display
 
     private MapView mapView;
     private AnimatedMyLocationOverlay locationOverlay;
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
     private OkHttpClient httpClient;
 
     private GeoPoint currentLocation;
-    private String currentActivity = "Unknown";
+    private String currentActivity = "Idle";
     private String deviceId;
     private double currentSpeed = 0.0;
 
@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
         activityRecognitionClient = ActivityRecognition.getClient(this);
 
         deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-        locationInfoText.setText("Device ID: " + deviceId + "\nWaiting for location...");
+//        locationInfoText.setText("Device ID: " + deviceId + "\nWaiting for location...");
 
         btnRecenter.setOnClickListener(v -> {
             if (currentLocation != null) {
@@ -223,9 +223,6 @@ public class MainActivity extends AppCompatActivity {
         pathPoints.add(newPoint);
 
         // Remove oldest points if we exceed the maximum
-        while (pathPoints.size() > MAX_PATH_POINTS) {
-            pathPoints.remove(0);
-        }
 
         // Update the polyline with current path points
         pathPolyline.setPoints(new ArrayList<>(pathPoints));
@@ -241,14 +238,11 @@ public class MainActivity extends AppCompatActivity {
         currentSpeed = location.getSpeed(); // m/s
 
         String info = String.format(
-                "Device ID: %s\nLat: %.5f, Lon: %.5f\nSpeed: %.1f m/s\nActivity: %s\nPath Points: %d/%d",
-                deviceId,
+                "\n\nLat: %.5f, Lon: %.5f\nSpeed: %.1f m/s\nActivity: %s\n",
                 location.getLatitude(),
                 location.getLongitude(),
                 currentSpeed,
-                currentActivity,
-                pathPoints.size(),
-                MAX_PATH_POINTS
+                currentActivity
         );
 
         locationInfoText.setText(info);
@@ -327,14 +321,12 @@ public class MainActivity extends AppCompatActivity {
         // Update the UI with the new activity
         if (currentLocation != null) {
             String info = String.format(
-                    "Device ID: %s\nLat: %.5f, Lon: %.5f\nSpeed: %.1f m/s\nActivity: %s\nPath Points: %d/%d",
+                    "Lat: %.5f, Lon: %.5f\nSpeed: %.1f m/s\nActivity: %s\n",
                     deviceId,
                     currentLocation.getLatitude(),
                     currentLocation.getLongitude(),
                     currentSpeed,
-                    currentActivity,
-                    pathPoints.size(),
-                    MAX_PATH_POINTS
+                    currentActivity
             );
             locationInfoText.setText(info);
         }
