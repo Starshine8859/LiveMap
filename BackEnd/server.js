@@ -98,7 +98,6 @@ app.post("/api/endpoint", async (req, res) => {
 app.get("/api/latest-status", async (req, res) => {
   try {
     const latestPerUser = await LocationData.aggregate([
-      { $sort: { timestamp: -1 } }, // Sort descending by timestamp
       {
         $group: {
           _id: "$userid", // Group by userid
@@ -111,6 +110,13 @@ app.get("/api/latest-status", async (req, res) => {
         },
       },
       { $project: { _id: 0 } }, // Remove _id from output
+      {
+        $sort: {
+          timestamp: -1, // Sort by timestamp descending
+          status: 1, // Then by status ascending
+          userid: 1, // Then by userid ascending
+        },
+      },
     ]);
 
     res.json({ success: true, data: latestPerUser });
