@@ -3,7 +3,9 @@ import {
   Search,
   Filter,
   Wifi,
-  MapPin
+  User as UserIcon,
+  MapPin,
+  Clock,
 } from "lucide-react";
 import { User } from "../types/User";
 
@@ -13,7 +15,7 @@ interface UserListProps {
   activityFilter: string;
   selectedUser: User | null;
   onlineFilter: string;
-  loading: boolean;
+
   onSearchChange: (term: string) => void;
   setActivityFilter: (filter: string) => void;
   setOnlineFilter: (filter: string) => void;
@@ -26,7 +28,7 @@ export const UserList: React.FC<UserListProps> = ({
   activityFilter,
   selectedUser,
   onlineFilter,
-  loading,
+
   onSearchChange,
   setOnlineFilter,
   setActivityFilter,
@@ -36,13 +38,25 @@ export const UserList: React.FC<UserListProps> = ({
     switch (activity) {
       case "Walking":
         return "text-green-500 bg-green-100";
-      case "Running":
+      case "Driving":
         return "text-blue-500 bg-blue-100";
       case "Idle":
         return "text-red-500 bg-red-100";
       default:
         return "text-gray-500 bg-gray-100";
     }
+  };
+
+  const formatLastSeen = (date: Date) => {
+    const now = new Date();
+    const diff = now.getTime() - date.getTime();
+    const minutes = Math.floor(diff / 60000);
+
+    if (minutes < 1) return "Just now";
+    if (minutes < 60) return `${minutes}m ago`;
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `${hours}h ago`;
+    return `${Math.floor(hours / 24)}d ago`;
   };
 
   return (
@@ -63,7 +77,7 @@ export const UserList: React.FC<UserListProps> = ({
           />
         </div>
 
-        {/* Online Status Filter */}
+        {/* Activity Filter */}
         <div className="relative mb-4">
           <Wifi className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
           <select
@@ -87,12 +101,12 @@ export const UserList: React.FC<UserListProps> = ({
           >
             <option value="all">All Activities</option>
             <option value="Idle">Idle</option>
-            <option value="Still">Still</option>
+
             <option value="Walking">Walking</option>
             <option value="Running">Running</option>
-            <option value="Bicycling">Bicycling</option>
+            <option value="Biking">Biking</option>
             <option value="Driving">Driving</option>
-            <option value="On Foot">On Foot</option>
+            <option value="Train">Train</option>
           </select>
         </div>
       </div>
@@ -100,7 +114,7 @@ export const UserList: React.FC<UserListProps> = ({
       {/* User List */}
       <div className="flex-1 overflow-y-auto">
         <div className="p-4">
-          {loading || users.length === 0 ?(
+          { users.length === 0 ?(
             <div className="flex items-center justify-center h-40">
               <svg
                 className="animate-spin h-6 w-6 text-gray-400"
@@ -124,73 +138,67 @@ export const UserList: React.FC<UserListProps> = ({
               </svg>
               <span className="ml-2 text-sm text-gray-400">Loading users...</span>
             </div>
-          ) : (!loading && users.length === 0) ? (
-            <div className="text-center text-gray-500 py-10 text-sm">
-              No users found.
-            </div>
-          ) : (
-            <>
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-sm text-gray-400">Active Users</span>
-                <span className="text-sm text-green-500 font-medium">
-                  {users.filter((u) => u.isOnline).length} Online
-                </span>
-              </div>
+          ) :(<>
+          <div className="flex items-center justify-between mb-4">
+            <span className="text-sm text-gray-400">Active Users</span>
+            <span className="text-sm text-green-500 font-medium">
+              {users.filter((u) => u.isOnline).length} Online
+            </span>
+          </div>
 
-              <div className="space-y-3">
-                {users.map((user) => (
-                  <div
-                    key={user.id}
-                    onClick={() => onUserSelect(user)}
-                    className={`p-4 rounded-lg cursor-pointer transition-all duration-200 ${
-                      selectedUser?.id === user.id
-                        ? "bg-blue-600 shadow-lg"
-                        : "bg-gray-800 hover:bg-gray-700"
-                    }`}
-                  >
-                    <div className="flex items-start gap-3">
-                      <div className="relative">
-                        <img
-                          src={user.avatar}
-                          alt={user.name}
-                          className="w-12 h-12 rounded-full object-cover"
-                        />
-                        <div
-                          className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-gray-900 ${
-                            user.isOnline ? "bg-green-500" : "bg-gray-500"
-                          }`}
-                        />
-                      </div>
+          <div className="space-y-3">
+            {users.map((user) => (
+              <div
+                key={user.id}
+                onClick={() => onUserSelect(user)}
+                className={`p-4 rounded-lg cursor-pointer transition-all duration-200 ${
+                  selectedUser?.id === user.id
+                    ? "bg-blue-600 shadow-lg"
+                    : "bg-gray-800 hover:bg-gray-700"
+                }`}
+              >
+                <div className="flex items-start gap-3">
+                  <div className="relative">
+                    <img
+                      src={user.avatar}
+                      alt={user.name}
+                      className="w-12 h-12 rounded-full object-cover"
+                    />
+                    <div
+                      className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-gray-900 ${
+                        user.isOnline ? "bg-green-500" : "bg-gray-500"
+                      }`}
+                    />
+                  </div>
 
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center justify-between mb-1">
-                          <h3 className="font-medium truncate">{user.name}</h3>
-                          <span
-                            className={`px-2 py-1 rounded-full text-xs font-medium ${getActivityColor(
-                              user.activity
-                            )}`}
-                          >
-                            {user.activity}
-                          </span>
-                        </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between mb-1">
+                      <h3 className="font-medium truncate">{user.name}</h3>
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs font-medium ${getActivityColor(
+                          user.activity
+                        )}`}
+                      >
+                        {user.activity}
+                      </span>
+                    </div>
 
-                        <p className="text-sm text-gray-400 truncate mb-2">
-                          {user.email}
-                        </p>
+                    <p className="text-sm text-gray-400 truncate mb-2">
+                      {user.email}
+                    </p>
 
-                        <div className="space-y-1">
-                          <div className="flex items-center gap-2 text-xs text-gray-400">
-                            <MapPin className="w-3 h-3" />
-                            <span>{user.speed.toFixed(1)} m/s</span>
-                          </div>
-                        </div>
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2 text-xs text-gray-400">
+                        <MapPin className="w-3 h-3" />
+                        <span>{user.speed.toFixed(1)} m/s</span>
                       </div>
                     </div>
                   </div>
-                ))}
+                </div>
               </div>
-            </>
-          )}
+            ))}
+          </div>
+          </>)}
         </div>
       </div>
 
