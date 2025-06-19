@@ -22,7 +22,7 @@ export class UserService {
   }
 
   private async updateUserPositions() {
-    await fetch("http://192.168.10.185:3000/api/latest-status")
+    await fetch("http://173.44.141.183:3000/api/latest-status")
       .then((res) => res.json())
       .then((response) => {
         if (response.success) {
