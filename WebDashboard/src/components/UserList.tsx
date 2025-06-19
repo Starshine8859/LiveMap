@@ -5,7 +5,6 @@ import {
   Wifi,
   User as UserIcon,
   MapPin,
-  Battery,
   Clock,
 } from "lucide-react";
 import { User } from "../types/User";
@@ -62,7 +61,7 @@ export const UserList: React.FC<UserListProps> = ({
     <div className="bg-gray-900 text-white w-80 h-full flex flex-col">
       {/* Header */}
       <div className="p-6 border-b border-gray-800">
-        <h1 className="text-xl font-bold mb-4">Live User Map</h1>
+        <h1 className="text-xl font-bold mb-4">User Filter</h1>
 
         {/* Search */}
         <div className="relative mb-4">
@@ -169,22 +168,7 @@ export const UserList: React.FC<UserListProps> = ({
                       <div className="flex items-center gap-2 text-xs text-gray-400">
                         <Clock className="w-3 h-3" />
                         <span>{formatLastSeen(user.lastSeen)}</span>
-                      </div>
-
-                      <div className="flex items-center gap-2 text-xs">
-                        <Battery className="w-3 h-3" />
-                        <span
-                          className={`${
-                            user.batteryLevel > 50
-                              ? "text-green-400"
-                              : user.batteryLevel > 20
-                              ? "text-yellow-400"
-                              : "text-red-400"
-                          }`}
-                        >
-                          {user.batteryLevel.toFixed(0)}%
-                        </span>
-                      </div>
+                      </div>                     
                     </div>
                   </div>
                 </div>

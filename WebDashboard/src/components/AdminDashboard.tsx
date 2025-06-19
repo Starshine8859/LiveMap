@@ -91,7 +91,7 @@ export const AdminDashboard: React.FC = () => {
         <div className="absolute top-4 left-4 z-[1000]">
           <div className="bg-white rounded-lg shadow-lg border p-4 min-w-[250px]">
             <div className="flex items-center justify-between mb-2">
-              <h2 className="font-semibold text-gray-900">Live Tracking</h2>
+              <h2 className="font-semibold text-gray-900">Current Status</h2>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                 <span className="text-xs text-gray-600">Live</span>
@@ -131,7 +131,7 @@ export const AdminDashboard: React.FC = () => {
                 />
                 <div>
                   <h3 className="font-semibold text-gray-900">{selectedUser.name}</h3>
-                  <p className="text-sm text-gray-600">{selectedUser.email}</p>
+                  <p className="text-sm text-gray-600"></p>
                 </div>
                 <button
                   onClick={() => setSelectedUser(null)}
@@ -155,17 +155,7 @@ export const AdminDashboard: React.FC = () => {
                 <div>
                   <div className="text-gray-600">Speed</div>
                   <div className="font-semibold text-gray-900">
-                    {selectedUser.speed.toFixed(1)} km/h
-                  </div>
-                </div>
-                <div>
-                  <div className="text-gray-600">Battery</div>
-                  <div className={`font-semibold ${
-                    selectedUser.batteryLevel > 50 ? 'text-green-600' :
-                    selectedUser.batteryLevel > 20 ? 'text-yellow-600' :
-                    'text-red-600'
-                  }`}>
-                    {selectedUser.batteryLevel.toFixed(0)}%
+                    {selectedUser.speed.toFixed(1)} m/s
                   </div>
                 </div>
                 <div>

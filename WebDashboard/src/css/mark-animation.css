@@ -1,0 +1,38 @@
+/* Base style for markers */
+.custom-marker {
+  border-radius: 50%;
+  box-shadow: 0 0 5px rgba(0,0,0,0.3);
+  transition: box-shadow 0.3s ease;
+}
+
+/* Zoom pulse for walking/driving */
+.animated-marker {
+  animation: zoomPulse 2s ease-in-out infinite;
+}
+
+@keyframes zoomPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); /* blue-ish shadow */
+  }
+  50% {
+    transform: scale(1.3);
+    box-shadow: 0 0 15px 15px rgba(59, 130, 246, 0);
+  }
+}
+
+/* Zoom pulse for stationary (red) */
+.animated-marker-red {
+  animation: zoomPulseRed 2s ease-in-out infinite;
+}
+
+@keyframes zoomPulseRed {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+  }
+  50% {
+    transform: scale(1.3);
+    box-shadow: 0 0 15px 15px rgba(239, 68, 68, 0);
+  }
+}

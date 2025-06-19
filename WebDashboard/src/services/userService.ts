@@ -1,4 +1,4 @@
-import { User, ActivityLog } from "../types/User";
+import { User } from "../types/User";
 
 // Mock user data
 const mockUsers: User[] = [];
@@ -31,7 +31,7 @@ export class UserService {
             name: user.userid,
             email: user.userid,
             avatar:
-              "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=1",
+              "./public/images/user.png",
             position: {
               lat: parseFloat(user.latitude),
               lng: parseFloat(user.longitude),
@@ -44,7 +44,7 @@ export class UserService {
                 (new Date().getTime() - new Date(user.timestamp).getTime()) /
                   60000
               ) < 5, // true if last seen within 5 minutes
-            batteryLevel: Math.random() * 100,
+            
           }));
 
           // Update the internal users array with the new data

@@ -11,7 +11,6 @@ export interface User {
   speed: number; // km/h
   lastSeen: Date;
   isOnline: boolean;
-  batteryLevel: number;
 }
 
 export interface ActivityLog {
