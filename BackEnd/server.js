@@ -7,10 +7,10 @@ const app = express();
 const PORT = 3000;
 
 // MongoDB Atlas connection URI
-const { MongoClient, ServerApiVersion } = require('mongodb');
-const MONGODB_URI = "mongodb+srv://livemap:wi5Y1BLy7zaHkQ9a@cluster0.icbepgp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const { MongoClient, ServerApiVersion } = require("mongodb");
+const MONGODB_URI =
+  "mongodb+srv://livemap:wi5Y1BLy7zaHkQ9a@cluster0.icbepgp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
- 
 app.use(cors());
 app.use(bodyParser.json());
 
@@ -85,7 +85,7 @@ app.post("/api/endpoint", async (req, res) => {
     if (!isNumber(longitude)) errors.push("longitude must be a valid number");
     if (!isNumber(speed)) errors.push("speed must be a valid number");
     if (!status) errors.push("status is required");
-    
+
     return res.status(400).json({
       success: false,
       message: "Validation errors",
@@ -98,11 +98,11 @@ app.post("/api/endpoint", async (req, res) => {
 app.get("/api/latest-status", async (req, res) => {
   try {
     const latestPerUser = await LocationData.aggregate([
-      { $sort: { timestamp: -1 } },
+      { $sort: { timestamp: -1 } }, // Sort descending by timestamp
       {
         $group: {
-          _id: "$userid",
-          userid: { $first: "$userid" },
+          _id: "$userid", // Group by userid
+          userid: { $first: "$userid" }, // Take first userid (latest)
           latitude: { $first: "$latitude" },
           longitude: { $first: "$longitude" },
           speed: { $first: "$speed" },
@@ -110,16 +110,16 @@ app.get("/api/latest-status", async (req, res) => {
           timestamp: { $first: "$timestamp" },
         },
       },
-      { $project: { _id: 0 } },
+      { $project: { _id: 0 } }, // Remove _id from output
     ]);
 
     res.json({ success: true, data: latestPerUser });
   } catch (error) {
     console.error("Error fetching latest status:", error);
-    res.status(500).json({ 
-      success: false, 
+    res.status(500).json({
+      success: false,
       message: "Server error",
-      error: error.message 
+      error: error.message,
     });
   }
 });
@@ -141,29 +141,30 @@ app.get("/api/user-data", async (req, res) => {
       .lean();
 
     if (userData.length === 0) {
-      return res.status(404).json({ 
-        success: false, 
-        message: "No data found for this user" 
+      return res.status(404).json({
+        success: false,
+        message: "No data found for this user",
       });
     }
 
     res.json({ success: true, data: userData });
   } catch (error) {
     console.error("Error fetching user data:", error);
-    res.status(500).json({ 
-      success: false, 
+    res.status(500).json({
+      success: false,
       message: "Internal server error",
-      error: error.message 
+      error: error.message,
     });
   }
 });
 
 // GET: Health check endpoint
 app.get("/api/health", (req, res) => {
-  res.json({ 
-    success: true, 
+  res.json({
+    success: true,
     message: "Server is running",
-    database: mongoose.connection.readyState === 1 ? "Connected" : "Disconnected"
+    database:
+      mongoose.connection.readyState === 1 ? "Connected" : "Disconnected",
   });
 });
 
