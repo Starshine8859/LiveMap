@@ -42,7 +42,7 @@ export class UserService {
             isOnline:
               Math.floor(
                 (new Date().getTime() - new Date(user.timestamp).getTime()) /
-                  60000
+                  1000
               ) < 5, // true if last seen within 5 minutes
             
           }));

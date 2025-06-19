@@ -21,7 +21,7 @@
   }
 }
 
-/* Zoom pulse for stationary (red) */
+/* Zoom pulse for Idle (red) */
 .animated-marker-red {
   animation: zoomPulseRed 2s ease-in-out infinite;
 }

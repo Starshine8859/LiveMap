@@ -10,26 +10,24 @@ interface LiveMapProps {
   onUserSelect: (user: User) => void;
 }
 
-const createUserIcon = (user: User, isSelected: boolean) => {
+const createUserIcon = (user: User) => {
   const colors = {
     Walking: '#10B981',   // green
     Driving: '#3B82F6',   // blue
-    stationary: '#EF4444' // red
+    Idle: '#EF4444' // red
   };
 
-  const color = colors[user.activity] || '#999999';
+  const color = colors[user.activity] || '#ff5100';
   const size = user.isOnline ? 16 : 12;
   const opacity = user.isOnline ? 1 : 0.6;
 
   // Determine animation class based on selection & activity
   let animationClass = '';
-  if (isSelected) {
-    if (user.activity === 'stationary') {
+  if (user.activity === 'Idle') {
       animationClass = 'animated-marker-red';
     } else {
       animationClass = 'animated-marker';
     }
-  }
 
   return new DivIcon({
     html: `
@@ -82,7 +80,7 @@ export const LiveMap: React.FC<LiveMapProps> = ({ users, selectedUser, onUserSel
           <Marker
             key={user.id}
             position={[user.position.lat, user.position.lng]}
-            icon={createUserIcon(user, selectedUser?.id === user.id)}
+            icon={createUserIcon(user)}
             eventHandlers={{
               click: () => onUserSelect(user)
             }}
@@ -114,7 +112,7 @@ export const LiveMap: React.FC<LiveMapProps> = ({ users, selectedUser, onUserSel
 
                   <div className="flex justify-between">
                     <span className="text-gray-600">Speed:</span>
-                    <span className="font-medium">{user.speed.toFixed(1)} km/h</span>
+                    <span className="font-medium">{user.speed.toFixed(1)} m/s</span>
                   </div>
 
                   <div className="flex justify-between">

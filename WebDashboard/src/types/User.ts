@@ -7,8 +7,8 @@ export interface User {
     lat: number;
     lng: number;
   };
-  activity: 'Walking' | 'Driving' | 'Stationary';
-  speed: number; // km/h
+  activity: 'Still' | 'Walking' | 'Running' | 'Bicycling' | 'Driving' | 'On Foot' | 'Idle';
+  speed: number; // m/s
   lastSeen: Date;
   isOnline: boolean;
 }
@@ -16,7 +16,7 @@ export interface User {
 export interface ActivityLog {
   id: string;
   userId: string;
-  activity: 'Walking' | 'Driving' | 'Stationary' | 'Running' | 'Biking';
+  activity: 'Still' | 'Walking' | 'Running' | 'Bicycling' | 'Driving' | 'On Foot' | 'Idle';
   position: {
     lat: number;
     lng: number;
