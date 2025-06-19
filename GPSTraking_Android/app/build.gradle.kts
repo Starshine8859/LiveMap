@@ -36,10 +36,25 @@ android {
 }
 
 dependencies {
-    implementation ("org.osmdroid:osmdroid-android:6.1.14")  // OSMDroid
-    implementation ("androidx.appcompat:appcompat:1.6.1")
-    implementation ("com.google.android.material:material:1.9.0")
-    implementation ("com.google.android.gms:play-services-location:21.1.0")
+    implementation ("androidx.appcompat:appcompat:1.7.1")
+    implementation ("com.google.android.material:material:1.12.0")
+    implementation ("androidx.constraintlayout:constraintlayout:2.2.1")
+
+    // Google Play Services
+    implementation ("com.google.android.gms:play-services-location:21.3.0")
+
+    // OSMDroid for maps
+    implementation ("org.osmdroid:osmdroid-android:6.1.20")
+
+    // HTTP client for backend communication
+    implementation ("com.squareup.okhttp3:okhttp:4.12.0")
+
+    // JSON handling (already included in Android, but explicit for clarity)
+    // implementation 'org.json:json:20210307' // Usually not needed as Android includes JSON
+
+    testImplementation ("junit:junit:4.13.2")
+    androidTestImplementation ("androidx.test.ext:junit:1.2.1")
+    androidTestImplementation ("androidx.test.espresso:espresso-core:3.6.1")
 
     implementation(libs.appcompat)
     implementation(libs.material)
