@@ -26,12 +26,15 @@ export class UserService {
       .then((res) => res.json())
       .then((response) => {
         if (response.success) {
+          const nowUTC = new Date();
+          
+          
+          console.log(new Date().toISOString(), new Date().getTime(), response.data);
           const users = response.data.map((user) => ({
             id: user.userid,
             name: user.userid,
             email: user.userid,
-            avatar:
-              "./public/images/user.png",
+            avatar: "./public/images/user.png",
             position: {
               lat: parseFloat(user.latitude),
               lng: parseFloat(user.longitude),
@@ -41,10 +44,9 @@ export class UserService {
             lastSeen: new Date(user.timestamp),
             isOnline:
               Math.floor(
-                (new Date(new Date().toUTCString()).getTime() - new Date(user.timestamp).getTime()) /
-                  1000
-              ) < 20, // true if last seen within 5 minutes
-            
+                (nowUTC.getTime() - new Date(user.timestamp).getTime()) /
+                  60000
+              ) < 4, // true if last seen within 5 minutes
           }));
 
           // Update the internal users array with the new data
@@ -63,7 +65,11 @@ export class UserService {
     return [...this.users];
   }
 
-  filterUsers(searchTerm: string, activityFilter: string, onlineFilter : string): User[] {
+  filterUsers(
+    searchTerm: string,
+    activityFilter: string,
+    onlineFilter: string
+  ): User[] {
     return this.users.filter((user) => {
       const matchesSearch =
         user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -71,7 +77,7 @@ export class UserService {
       const matchesActivity =
         activityFilter === "all" || user.activity === activityFilter;
       const onlineActivity =
-        onlineFilter === "all" || user.isOnline === (onlineFilter==='Online');
+        onlineFilter === "all" || user.isOnline === (onlineFilter === "Online");
       return matchesSearch && matchesActivity && onlineActivity;
     });
   }
