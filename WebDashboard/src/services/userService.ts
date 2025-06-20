@@ -46,7 +46,7 @@ export class UserService {
               Math.floor(
                 (nowUTC.getTime() - new Date(user.timestamp).getTime()) /
                   1000
-              ) < 10, // true if last seen within 5 minutes
+              ) < 5, // true if last seen within 5 minutes
           }));
 
           // Update the internal users array with the new data
