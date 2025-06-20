@@ -22,7 +22,7 @@ export class UserService {
   }
 
   private async updateUserPositions() {
-    await fetch("http://173.44.141.183:3000/api/latest-status")
+    await fetch("http://173.44.141.183:3001/api/latest-status")
       .then((res) => res.json())
       .then((response) => {
         if (response.success) {
@@ -45,8 +45,8 @@ export class UserService {
             isOnline:
               Math.floor(
                 (nowUTC.getTime() - new Date(user.timestamp).getTime()) /
-                  60000
-              ) < 4, // true if last seen within 5 minutes
+                  1000
+              ) < 10, // true if last seen within 5 minutes
           }));
 
           // Update the internal users array with the new data
