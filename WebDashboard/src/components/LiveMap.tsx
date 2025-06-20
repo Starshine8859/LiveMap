@@ -14,20 +14,19 @@ const createUserIcon = (user: User) => {
   const colors = {
     Walking: '#10B981',   // green
     Driving: '#3B82F6',   // blue
-    Idle: '#EF4444' // red
+    Idle: '#EF4444'       // red
   };
 
   const color = colors[user.activity] || '#ff5100';
   const size = user.isOnline ? 16 : 12;
   const opacity = user.isOnline ? 1 : 0.6;
 
-  // Determine animation class based on selection & activity
   let animationClass = '';
   if (user.activity === 'Idle') {
-      animationClass = 'animated-marker-red';
-    } else {
-      animationClass = 'animated-marker';
-    }
+    animationClass = 'animated-marker-red';
+  } else {
+    animationClass = 'animated-marker';
+  }
 
   return new DivIcon({
     html: `
@@ -69,8 +68,9 @@ export const LiveMap: React.FC<LiveMapProps> = ({ users, selectedUser, onUserSel
         className="w-full h-full"
         zoomControl={false}
       >
+        {/* 💡 Dark themed OSM layer from Carto */}
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          attribution='&copy; <a href="https://carto.com/">CARTO</a>'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 

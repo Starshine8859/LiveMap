@@ -41,9 +41,9 @@ export class UserService {
             lastSeen: new Date(user.timestamp),
             isOnline:
               Math.floor(
-                (new Date().getTime() - new Date(user.timestamp).getTime()) /
+                (new Date(new Date().toUTCString()).getTime() - new Date(user.timestamp).getTime()) /
                   1000
-              ) < 5, // true if last seen within 5 minutes
+              ) < 20, // true if last seen within 5 minutes
             
           }));
 
